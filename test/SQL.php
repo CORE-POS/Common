@@ -65,6 +65,11 @@ class SQL extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(false, $dbc->tableDefinition('not_real_table'));
         $this->assertEquals(false, $dbc->detailedDefinition('not_real_table'));
+        $this->assertEquals(false, $dbc->isView('not_real_table'));
+        $this->assertEquals(false, $dbc->isView('mock'));
+        $this->assertEquals(true, $dbc->isView('vmock'));
+        $this->assertInternalType('string', $dbc->getViewDefinition('vmock'));
+        $this->assertEquals(false, $dbc->getViewDefinition('mock'));
 
         $tables = $dbc->getTables();
         $this->assertInternalType('array', $tables);
@@ -83,6 +88,17 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($badDef, $dbc->tableDefinition('mock'));
 
         $this->assertNotEquals(false, $dbc->getMatchingColumns('mock', 'test', 'mock', 'test'));
+
+        $this->assertNotEquals(false, $dbc->smartInsert('mock', array(
+            'string' => 'row2',
+            'nonColumn' => 'foo',
+        )));
+        $this->assertNotEquals(false, $dbc->smartUpdate('mock', array(
+            'string' => 'row2',
+            'nonColumn' => 'foo',
+        ), 'id=2'));
+        $this->assertEquals(true, $dbc->transfer('test', 'select string,val from mock', 'test', 'insert into mock (string,val)'));
+        $dbc->query('TRUNCATE TABLE mock');
 
         $this->assertEquals(true, $dbc->close());
         $dbc->close('test', true);
