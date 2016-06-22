@@ -324,7 +324,7 @@ class BaseLogger
     */
     public function getLogLocation($int_level)
     {
-        return '/dev/null';
+        return stristr(PHP_OS, 'WIN') ? 'nul' : '/dev/null';
     }
 
     /**

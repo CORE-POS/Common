@@ -8,6 +8,7 @@
         <file>test/BasicModel.php</file>
         <file>test/Cache.php</file>
         <file>test/CorePlugin.php</file>
+        <file>test/FormLib.php</file>
         <file>test/MVC.php</file>
         <file>test/Pages.php</file>
         <file>test/SQL.php</file>
