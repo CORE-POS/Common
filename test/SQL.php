@@ -12,7 +12,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $dbc->throwOnFailure(true);
         $this->assertEquals('test', $dbc->defaultDatabase());
 
-        $this->assertEquals(false, $dbc->addConnection('localhost', 'MYSQLI', 'test', 'notRoot', ''));
+        $this->assertEquals(false, $dbc->addConnection('localhost', 'PDO_MYSQL', 'test', 'notRoot', ''));
         $this->assertEquals(false, $dbc->addConnection('localhost', '', 'test', 'root', ''));
         $this->assertEquals(true, $dbc->addConnection('localhost', 'MYSQLI', 'test', 'root', ''));
 
