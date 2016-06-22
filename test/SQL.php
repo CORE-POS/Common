@@ -34,7 +34,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertEquals("CONCAT(foo,bar)", $dbc->concat('foo','bar','test'));
         $this->assertEquals("(foo BETWEEN '2000-01-01 00:00:00' AND '2000-01-01 23:59:59')", $dbc->dateEquals('foo', '2000-01-01'));
         $this->assertEquals("DATE_FORMAT(foo,'%w')+1", $dbc->dayofweek('foo'));
-        $this->assertEquals("HOUR(foo)", $dbc->hour('foo'));
+        $this->assertEquals("DATE_FORMAT(foo,'%H')", $dbc->hour('foo'));
         $this->assertEquals('decimal(10,2)', $dbc->currency());
         $this->assertEquals('SELECT 1 LIMIT 1', $dbc->addSelectLimit('SELECT 1', 1));
 
