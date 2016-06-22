@@ -12,12 +12,26 @@ class SQL extends PHPUnit_Framework_TestCase
         $dbc->throwOnFailure(true);
         $this->assertEquals('test', $dbc->defaultDatabase());
 
+        $this->assertEquals(false, $dbc->addConnection('localhost', 'MYSQLI', 'test', 'notRoot', ''));
         $this->assertEquals(false, $dbc->addConnection('localhost', '', 'test', 'root', ''));
         $this->assertEquals(true, $dbc->addConnection('localhost', 'MYSQLI', 'test', 'root', ''));
 
         $this->assertEquals(true, $dbc->isConnected());
         $this->assertEquals(true, $dbc->isConnected('test'));
         $this->assertEquals(false, $dbc->isConnected('foo'));
+
+        $this->assertEquals(true, $dbc->selectDB('test'));
+        $this->assertEquals("'foo'", $dbc->escape('foo'));
+        $this->assertEquals('CURDATE()', $dbc->curdate());
+        $this->assertEquals('DATEDIFF(foo, bar)', $dbc->datediff('foo', 'bar'));
+        $this->assertEquals("period_diff(date_format(foo, '%Y%m'), date_format(bar, '%Y%m'))", $dbc->monthdiff('foo', 'bar'));
+        $this->assertEquals("DATE_FORMAT(FROM_DAYS(DATEDIFF(foo,bar)), '%Y')+0", $dbc->yeardiff('foo', 'bar'));
+        $this->assertEquals('TIMESTAMPDIFF(SECOND,foo,bar)', $dbc->seconddiff('foo', 'bar'));
+        $this->assertEquals('week(foo) - week(bar)', $dbc->weekdiff('foo', 'bar'));
+        $this->assertEquals("DATE_FORMAT(foo, '%Y%m%d')", $dbc->dateymd('foo'));
+        $this->assertEquals("CONVERT(foo,SIGNED)", $dbc->convert('foo', 'int'));
+        $this->assertEquals("LOCATE(foo,f)", $dbc->locate('foo', 'f'));
+        $this->assertEquals("CONCAT(foo,bar)", $dbc->concat('foo','bar','test'));
 
         $this->assertNotEquals('unknown', $dbc->connectionType());
         $this->assertEquals('unknown', $dbc->connectionType('foo'));
@@ -28,6 +42,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $res = $dbc->queryAll('SELECT 1 AS one');
         $this->assertNotEquals(false, $res);
         $this->assertEquals(1, $dbc->numRows($res));
+        $this->asertEquals(1, $dbc->numFields($res));
         $this->assertEquals(false, $dbc->numRows(false));
         $this->assertEquals(true, $dbc->dataSeek($res, 0));
 
@@ -68,6 +83,9 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($badDef, $dbc->tableDefinition('mock'));
 
         $this->assertNotEquals(false, $dbc->getMatchingColumns('mock', 'test', 'mock', 'test'));
+
+        $this->assertEquals(true, $dbc->close());
+        $this->assertEquals(true, $dbc->close('test', true));
     }
 
 
