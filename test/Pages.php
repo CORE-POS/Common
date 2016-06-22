@@ -22,6 +22,14 @@ class Pages extends PHPUnit_Framework_TestCase
         ob_get_clean();
 
         $page->baseTest($this);
+
+        $mc = new MockConfig();
+        $page->setConfig($mc);
+        $bl = new COREPOS\common\BaseLogger();
+        $page->setLogger($bl);
+        $page->setConnection(new MockSQL());
+
+        $page->unitTest($this);
     }
 
 

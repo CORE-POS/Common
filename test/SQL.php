@@ -12,8 +12,14 @@ class SQL extends PHPUnit_Framework_TestCase
         $dbc->throwOnFailure(true);
         $this->assertEquals('test', $dbc->defaultDatabase());
 
-        $this->assertEquals(false, $dbc->addConnection('localhost', 'PDO_MYSQL', 'test', 'notRoot', ''));
-        $this->assertEquals(false, $dbc->addConnection('localhost', '', 'test', 'root', ''));
+        $this->assertEquals(false, $dbc->addConnection('127.0.0.1:3306', 'PDO_MYSQL', 'test', 'notRoot', ''));
+        $this->assertEquals(false, $dbc->selectDB('test'));
+        try {
+            $dbc->query('not connected', array(1, 2));
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+        }
+        $this->assertEquals(false, $dbc->addConnection('localhost', '', 'test', 'root', '', true));
         $this->assertEquals(true, $dbc->addConnection('localhost', 'MYSQLI', 'test', 'root', ''));
 
         $this->assertEquals(true, $dbc->isConnected());
@@ -116,7 +122,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertEquals(false, $dbc->getRow($prep, 1));
 
         $this->assertEquals(true, $dbc->close());
-        $dbc->close('test', true);
+        $dbc->close('', true);
     }
 
 
