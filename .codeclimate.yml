@@ -22,6 +22,6 @@ ratings:
   - "**.php"
   - "**.py"
   - "**.rb"
- exclude_paths:
-  - src/adodb5/*
-  - test/*
+exclude_paths:
+- src/adodb5/*
+- test/*
