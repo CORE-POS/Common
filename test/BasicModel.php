@@ -96,7 +96,7 @@ class BasicModel extends PHPUnit_Framework_TestCase
         $obj = $model->toStdClass();
         $this->assertEquals(1, $obj->id);
         $model->reset();
-        $this->assertEquals(true, strstr($model->toOptions(), '<option'));
+        $this->assertNotEquals(false, strstr($model->toOptions(), '<option'));
         $this->assertEquals(false, $model->delete());
         $model->id(1);
         $this->assertEquals(true, $model->delete());
