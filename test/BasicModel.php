@@ -56,13 +56,21 @@ class BasicModel extends PHPUnit_Framework_TestCase
             include(__DIR__ . '/MockModel.php');
         }
         $model = new MockModel($dbc);
+        $this->assertEquals(0, $model->val());
+        $this->assertEquals(null, $model->string());
 
         ob_start();
         $this->assertEquals(false, $model->normalize('test', 99));
         $this->assertEquals(999, $model->normalize('test'));
         $this->assertEquals(true, $model->normalize('test', COREPOS\common\BasicModel::NORMALIZE_MODE_APPLY));
+        $this->assertEquals(0, $model->normalize('test'));
         ob_end_clean();
 
+        $this->assertEquals(false, $model->whichDB('foo'));
+        $this->assertEquals(true, $model->whichDB('test'));
+        $this->assertInternalType('array', $model->createIfNeeded('test'));
+
+        $model = new MockModel($dbc);
         $model->string('mockString');
         $this->assertEquals(true, $model->save());
         $model->reset();
@@ -84,10 +92,18 @@ class BasicModel extends PHPUnit_Framework_TestCase
         $model->reset();
         $model->string('newString');
         $this->assertEquals(1, count($model->find('id', true)));
+        $model->id(1);
+        $model->load();
+        $obj = $model->toStdClass();
+        $this->assertEquals(1, $obj->id);
         $model->reset();
+        $this->assertEquals(true, strstr($model->toOptions(), '<option'));
         $this->assertEquals(false, $model->delete());
         $model->id(1);
         $this->assertEquals(true, $model->delete());
+
+        $this->assertInternalType('string', $model->doc());
+        $this->assertInternalType('string', $model->columnsDoc());
     }
 }
 
