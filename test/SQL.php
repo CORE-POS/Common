@@ -23,7 +23,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertEquals(true, $dbc->selectDB('test'));
         $this->assertEquals("'foo'", $dbc->escape('foo'));
         $this->assertEquals('CURDATE()', $dbc->curdate());
-        $this->assertEquals('DATEDIFF(foo, bar)', $dbc->datediff('foo', 'bar'));
+        $this->assertEquals('datediff(foo,bar)', $dbc->datediff('foo', 'bar'));
         $this->assertEquals("period_diff(date_format(foo, '%Y%m'), date_format(bar, '%Y%m'))", $dbc->monthdiff('foo', 'bar'));
         $this->assertEquals("DATE_FORMAT(FROM_DAYS(DATEDIFF(foo,bar)), '%Y')+0", $dbc->yeardiff('foo', 'bar'));
         $this->assertEquals('TIMESTAMPDIFF(SECOND,foo,bar)', $dbc->seconddiff('foo', 'bar'));
