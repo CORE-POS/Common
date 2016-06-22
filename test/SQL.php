@@ -90,14 +90,14 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertNotEquals(false, $dbc->getMatchingColumns('mock', 'test', 'mock', 'test'));
 
         $this->assertNotEquals(false, $dbc->smartInsert('mock', array(
-            'string' => 'row2',
+            'val' => 'row2',
             'nonColumn' => 'foo',
         )));
         $this->assertNotEquals(false, $dbc->smartUpdate('mock', array(
-            'string' => 'row2',
+            'val' => 'row2',
             'nonColumn' => 'foo',
         ), 'id=2'));
-        $this->assertEquals(true, $dbc->transfer('test', 'select string,val from mock', 'test', 'insert into mock (string,val)'));
+        $this->assertEquals(true, $dbc->transfer('test', 'select val from mock', 'test', 'insert into mock (val)'));
         $dbc->query('TRUNCATE TABLE mock');
 
         $this->assertEquals(true, $dbc->close());
