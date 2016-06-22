@@ -13,7 +13,6 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertEquals('test', $dbc->defaultDatabase());
 
         $this->assertEquals(false, $dbc->addConnection('127.0.0.1:3306', 'PDO_MYSQL', 'test', 'notRoot', ''));
-        $this->assertEquals(false, $dbc->selectDB('test'));
         try {
             $dbc->query('not connected', array(1, 2));
         } catch (Exception $ex) {
