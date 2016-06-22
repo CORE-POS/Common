@@ -39,7 +39,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertEquals('SELECT 1 LIMIT 1', $dbc->addSelectLimit('SELECT 1', 1));
 
         list($in, $args) = $dbc->safeInClause(array());
-        $this->assertEquals('(?)', $in);
+        $this->assertEquals('?', $in);
         $this->assertEquals(array(-999999), $args);
 
         $this->assertNotEquals('unknown', $dbc->connectionType());
