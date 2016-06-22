@@ -112,7 +112,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $dbc->error();
 
         $prep = $dbc->prepare('SELECT val FROM mock WHERE id=?');
-        $this->assertEquals(false, $dbc->getVal($prep, 1));
+        $this->assertEquals(false, $dbc->getValue($prep, 1));
         $this->assertEquals(false, $dbc->getRow($prep, 1));
 
         $this->assertEquals(true, $dbc->close());
