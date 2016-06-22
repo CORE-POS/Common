@@ -47,7 +47,13 @@ class BasicModel extends PHPUnit_Framework_TestCase
 
         ob_start();
         $this->assertEquals(1, $m->cli(0, array()));
-        $this->assertEquals(0, $m->cli(3, array('BasicModel.php', '--doc', __DIR__ . '/MockModel.php')));
+        $this->assertEquals(0, $m->cli(5, array(
+            'BasicModel.php', 
+            '--doc', 
+            __DIR__ . '/MockModel.php',
+            __DIR__ . '/noSuchFile',
+            __DIR__ . '/../phpunit.xml'
+        )));
         ob_get_clean();
     }
 
