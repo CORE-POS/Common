@@ -28,7 +28,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertEquals("DATE_FORMAT(FROM_DAYS(DATEDIFF(foo,bar)), '%Y')+0", $dbc->yeardiff('foo', 'bar'));
         $this->assertEquals('TIMESTAMPDIFF(SECOND,foo,bar)', $dbc->seconddiff('foo', 'bar'));
         $this->assertEquals('week(foo) - week(bar)', $dbc->weekdiff('foo', 'bar'));
-        $this->assertEquals("DATE_FORMAT(foo, '%Y%m%d')", $dbc->dateymd('foo'));
+        $this->assertEquals("DATE_FORMAT(foo,'%Y%m%d')", $dbc->dateymd('foo'));
         $this->assertEquals("CONVERT(foo,SIGNED)", $dbc->convert('foo', 'int'));
         $this->assertEquals("LOCATE(foo,f)", $dbc->locate('foo', 'f'));
         $this->assertEquals("CONCAT(foo,bar)", $dbc->concat('foo','bar','test'));
