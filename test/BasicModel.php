@@ -44,5 +44,50 @@ class BasicModel extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $m->cli(0, array()));
         ob_get_clean();
     }
+
+    public function testMock()
+    {
+        $dbc = new COREPOS\common\SQLManager('localhost', 'PDO_MYSQL', 'test', 'root', '');
+        // this test is only going to work under CI
+        if (!$dbc->isConnected()) {
+            return;
+        }
+        if (!class_exists('MockModel')) {
+            include(__DIR__ . '/MockModel.php');
+        }
+        $model = new MockModel($dbc);
+
+        ob_start();
+        $this->assertEquals(false, $model->normalize('test', 99));
+        $this->assertEquals(999, $model->normalize('test'));
+        $this->assertEquals(true, $model->normalize('test', COREPOS\common\BasicModel::NORMALIZE_MODE_APPLY));
+        ob_end_clean();
+
+        $model->string('mockString');
+        $this->assertEquals(true, $model->save());
+        $model->reset();
+        $model->id(2);
+        $this->assertEquals(false, $model->load());
+        $model->id(1);
+        $this->assertEquals(true, $model->load());
+        $this->assertEquals('mockString', $model->string());
+        $model->id(1);
+        $model->string('newString');
+        $this->assertEquals(true, $model->save());
+        $model->reset();
+        $model->id(1);
+        $model->load();
+        $this->assertEquals('newString', $model->string());
+        $model->reset();
+        $model->val(1, '>');
+        $this->assertEquals(array(), $model->find());
+        $model->reset();
+        $model->string('newString');
+        $this->assertEquals(1, count($model->find('id', true)));
+        $model->reset();
+        $this->assertEquals(false, $model->delete());
+        $model->id(1);
+        $this->assertEquals(true, $model->delete());
+    }
 }
 
