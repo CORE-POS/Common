@@ -1,0 +1,18 @@
+language: php
+
+# keep verisions minimal to limit total
+# builds on free service. politeness.
+php:
+    - "5.5"
+
+#addons:
+#    code_climate:
+#        repo_token: 461be60a44fc2293c80a05712a1aa18ff7d12effec9a806d7722435b12ea2bbe
+
+# test both msyqli and PDO 
+install:
+    - composer require codeclimate/php-test-reporter 
+
+#after_script:
+#    - vendor/bin/test-reporter
+

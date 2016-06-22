@@ -1,0 +1,24 @@
+<phpunit bootstrap="test/bootstrap.php"> 
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
+    <testsuites>
+        <testsuite name="main">
+        <file>test/BaseLogger.php</file>
+        <file>test/BasicModel.php</file>
+        <file>test/Cache.php</file>
+        <file>test/CorePlugin.php</file>
+        <file>test/MVC.php</file>
+        <file>test/Pages.php</file>
+        <file>test/Cache.php</file>
+    </testsuite>
+</testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+            <exclude>
+                <directory>adodb5</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
