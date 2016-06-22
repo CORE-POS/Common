@@ -23,5 +23,6 @@ ratings:
   - "**.py"
   - "**.rb"
 exclude_paths:
-- src/adodb5/*
+- src/adodb5/
 - test/*
+- src/adodb5/contrib/toxmlrpc.inc.php
