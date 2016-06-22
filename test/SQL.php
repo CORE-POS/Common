@@ -32,6 +32,15 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertEquals("CONVERT(foo,SIGNED)", $dbc->convert('foo', 'int'));
         $this->assertEquals("LOCATE(foo,f)", $dbc->locate('foo', 'f'));
         $this->assertEquals("CONCAT(foo,bar)", $dbc->concat('foo','bar','test'));
+        $this->assertEquals("(foo BETWEEN '2000-01-01 00:00:00' AND '2000-01-01 23:59:59')", $dbc->dateEquals('foo', '2000-01-01'));
+        $this->assertEquals("DATE_FORMAT(foo,'%w')+1", $dbc->dayofweek('foo'));
+        $this->assertEquals("HOUR(foo)", $dbc->hour('foo'));
+        $this->assertEquals('decimal(10,2)', $dbc->currency());
+        $this->assertEquals('SELECT 1 LIMIT 1', $dbc->addSelectLimit('SELECT 1', 1));
+
+        list($in, $args) = $dbc->safeInClause(array());
+        $this->assertEquals('(?)', $in);
+        $this->assertEquals(array(-999999), $args);
 
         $this->assertNotEquals('unknown', $dbc->connectionType());
         $this->assertEquals('unknown', $dbc->connectionType('foo'));
@@ -99,6 +108,12 @@ class SQL extends PHPUnit_Framework_TestCase
         ), 'id=2'));
         $this->assertEquals(true, $dbc->transfer('test', 'select val from mock', 'test', 'insert into mock (val)'));
         $dbc->query('TRUNCATE TABLE mock');
+        $dbc->affectedRows();
+        $dbc->error();
+
+        $prep = $dbc->prepare('SELECT val FROM mock WHERE id=?');
+        $this->assertEquals(false, $dbc->getVal($prep, 1));
+        $this->assertEquals(false, $dbc->getRow($prep, 1));
 
         $this->assertEquals(true, $dbc->close());
         $dbc->close('test', true);
