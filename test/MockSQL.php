@@ -56,5 +56,10 @@ class MockSQL
     {
         return count(self::$rows);
     }
+
+    public function endQuery($r, $db)
+    {
+        return true;
+    }
 }
 

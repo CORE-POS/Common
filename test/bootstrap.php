@@ -11,7 +11,7 @@ function loadClass($class)
 {
     if (substr($class, 0, 15) === 'COREPOS\\common\\') {
         $path = str_replace('\\', '/', substr($class, 15));
-        $file = __DIR__ . '/../src/' . $path;
+        $file = __DIR__ . '/../src/' . $path . '.php';
         if (file_exists($file)) {
             include($file);
         }

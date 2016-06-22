@@ -129,9 +129,12 @@ class SQL extends PHPUnit_Framework_TestCase
     public function testAdapters()
     {
         $adapters = array('Mssql', 'Mysql', 'Pgsql', 'Sqlite');
+        $con = new MockSQL();
         foreach ($adapters as $adapter) {
             $class = 'COREPOS\\common\\sql\\' . $adapter . 'Adapter';
             $obj = new $class();
+            $this->assertInternalType('string', $obj->createNamedDB('foo'));
+            $this->assertInternalType('string', $obj->useNamedDB('foo'));
             $this->assertInternalType('string', $obj->identifierEscape('foo'));
             $this->assertInternalType('string', $obj->defaultDatabase());
             $this->assertInternalType('string', $obj->temporaryTable('foo','bar'));
@@ -149,7 +152,33 @@ class SQL extends PHPUnit_Framework_TestCase
             $this->assertInternalType('string', $obj->convert('date1','int'));
             $this->assertInternalType('string', $obj->locate('date1','te'));
             $this->assertInternalType('string', $obj->concat(array('1','2','3')));
+            $this->assertInternalType('string', $obj->setLockTimeout(5));
         }
+        
+        MockSQL::clear();
+
+        $obj = new COREPOS\common\sql\MssqlAdapter();
+        $this->assertEquals(false, $obj->getViewDefinition('foo', $con, 'foo')); 
+        MockSQL::addResult(array(0=>'foo'));
+        $this->assertEquals('foo', $obj->getViewDefinition('foo', $con, 'foo')); 
+        MockSQL::clear();
+
+        $obj = new COREPOS\common\sql\MysqlAdapter();
+        $this->assertEquals(false, $obj->getViewDefinition('foo', $con, 'foo')); 
+
+        $obj = new COREPOS\common\sql\PgsqlAdapter();
+        $this->assertEquals(false, $obj->getViewDefinition('foo', $con, 'foo')); 
+        MockSQL::addResult(array('oid'=>'foo'));
+        $this->assertEquals(false, $obj->getViewDefinition('foo', $con, 'foo')); 
+        MockSQL::addResult(array('oid'=>'foo'));
+        MockSQL::addResult(array(0=>'foo'));
+        $this->assertEquals('foo', $obj->getViewDefinition('foo', $con, 'foo')); 
+        MockSQL::clear();
+
+        $obj = new COREPOS\common\sql\SqliteAdapter();
+        MockSQL::addResult(array('sql'=>'foo'));
+        $this->assertEquals('foo', $obj->getViewDefinition('foo', $con, 'foo')); 
+        MockSQL::clear();
     }
 }
 
