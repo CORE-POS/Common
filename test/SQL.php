@@ -85,7 +85,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertNotEquals(false, $dbc->getMatchingColumns('mock', 'test', 'mock', 'test'));
 
         $this->assertEquals(true, $dbc->close());
-        $this->assertEquals(true, $dbc->close('test', true));
+        $dbc->close('test', true);
     }
 
 
