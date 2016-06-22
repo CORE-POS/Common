@@ -1479,7 +1479,7 @@ class $name extends " . $this->new_model_namespace . ($as_view ? 'ViewModel' : '
             array()
         );
         ksort($tables);
-        echo array_reduce(array_keys($table),
+        echo array_reduce(array_keys($tables),
             function ($carry, $item) {
                 return $carry . '* [' . $item . '](#' . strtolower($item) . ')' . "\n";
             },

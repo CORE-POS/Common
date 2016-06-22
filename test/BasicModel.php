@@ -32,6 +32,11 @@ class BasicModel extends PHPUnit_Framework_TestCase
         include('FooBarTestModel.php');
         $this->assertEquals(true, class_exists('FooBarTestModel', false));
         unlink('FooBarTestModel.php');
+        ob_start();
+        $this->assertEquals(0, $m->cli(3, array('BasicModel.php', '--new-view', 'FooView.php')));
+        $this->assertEquals(true, file_exists('FooViewModel.php'));
+        unlink('FooViewModel.php');
+        ob_end_clean();
         chdir($here);
 
         $this->assertEquals('[]', $m->toJSON());
@@ -42,6 +47,7 @@ class BasicModel extends PHPUnit_Framework_TestCase
 
         ob_start();
         $this->assertEquals(1, $m->cli(0, array()));
+        $this->assertEquals(0, $m->cli(3, array('BasicModel.php', '--doc', __DIR__ . '/MockModel.php')));
         ob_get_clean();
     }
 
@@ -97,6 +103,7 @@ class BasicModel extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $obj->id);
         $model->reset();
         $this->assertNotEquals(false, strstr($model->toOptions(), '<option'));
+        $this->assertNotEquals(false, strstr($model->toOptions(0, true), '<option'));
         $this->assertEquals(false, $model->delete());
         $model->id(1);
         $this->assertEquals(true, $model->delete());
