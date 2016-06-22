@@ -66,7 +66,6 @@ class BasicModel extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $model->normalize('test'));
         ob_end_clean();
 
-        $this->assertEquals(false, $model->whichDB('foo'));
         $this->assertEquals(true, $model->whichDB('test'));
         $this->assertInternalType('array', $model->createIfNeeded('test'));
 
