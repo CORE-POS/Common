@@ -2,6 +2,76 @@
 
 class SQL extends PHPUnit_Framework_TestCase
 {
+    public function testSQL()
+    {
+        $dbc = new COREPOS\common\SQLManager('localhost', 'PDO_MYSQL', 'test', 'root', '');
+        // this test is only going to work under CI
+        if (!$dbc->isConnected()) {
+            return;
+        }
+        $dbc->throwOnFailure(true);
+        $this->assertEquals('test', $dbc->defaultDatabase());
+
+        $this->assertEquals(false, $dbc->addConnection('localhost', '', 'test', 'root', ''));
+        $this->assertEquals(true, $dbc->addConnection('localhost', 'MYSQLI', 'test', 'root', ''));
+
+        $this->assertEquals(true, $dbc->isConnected());
+        $this->assertEquals(true, $dbc->isConnected('test'));
+        $this->assertEquals(false, $dbc->isConnected('foo'));
+
+        $this->assertNotEquals('unknown', $dbc->connectionType());
+        $this->assertEquals('unknown', $dbc->connectionType('foo'));
+
+        $this->assertEquals(false, $dbc->setDefaultDB('foo'));
+        $this->assertEquals(true, $dbc->setDefaultDB('test'));
+
+        $res = $dbc->queryAll('SELECT 1 AS one');
+        $this->assertNotEquals(false, $res);
+        $this->assertEquals(1, $dbc->numRows($res));
+        $this->assertEquals(false, $dbc->numRows(false));
+        $this->assertEquals(true, $dbc->dataSeek($res, 0));
+
+        $res = $dbc->query('SELECT ' . $dbc->curtime() . ' AS val');
+        $this->assertNotEquals(false, $res);
+
+        $dbc->startTransaction();
+        $dbc->query('SELECT 1 AS one');
+        $dbc->commitTransaction();
+        $dbc->startTransaction();
+        $dbc->query('SELECT 1 AS one');
+        $dbc->rollbackTransaction();
+
+        $query = 'SELECT * FROM mock';
+        $arg_sets = array(array(), array(), array());
+        $this->assertEquals(true, $dbc->executeAsTransaction($query, $arg_sets));
+
+        $res = $dbc->query('SELECT ' . $dbc->week($dbc->now()) . ' AS val');
+        $this->assertNotEquals(false, $res);
+
+        $this->assertEquals(false, $dbc->tableDefinition('not_real_table'));
+        $this->assertEquals(false, $dbc->detailedDefinition('not_real_table'));
+
+        $tables = $dbc->getTables();
+        $this->assertInternalType('array', $tables);
+
+        $this->assertEquals('test', $dbc->defaultDatabase());
+
+        $prep = $dbc->prepare('SELECT 1 AS one');
+        $this->assertEquals(1, $dbc->getValue($prep));
+        $this->assertNotEquals(0, count($dbc->getRow($prep)));
+        $this->assertNotEquals(0, count($dbc->matchingColumns('mock', 'mock')));
+
+        $badDef = array('not'=>'real');
+        $this->assertEquals(true, $dbc->cacheTableDefinition('mock', $badDef));
+        $this->assertEquals($badDef, $dbc->tableDefinition('mock'));
+        $this->assertEquals(true, $dbc->clearTableCache());
+        $this->assertNotEquals($badDef, $dbc->tableDefinition('mock'));
+
+        $this->assertNotEquals(false, $dbc->getMatchingColumns('mock', 'test', 'mock', 'test'));
+    }
+
+
+
     public function testSqlLib()
     {
         $this->assertInternalType('array', COREPOS\common\sql\Lib::getDrivers());

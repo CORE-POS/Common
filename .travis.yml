@@ -5,12 +5,18 @@ language: php
 php:
     - "5.6"
 
+services:
+    - mysql
+
 addons:
     code_climate:
         repo_token: 3835776b3b5113755de86e454eb6725bac11cf80b19c33172b7213af9da4ac20
 
 # test both msyqli and PDO 
 install:
+    - mysql -e "create database IF NOT EXISTS test;" -uroot
+    - mysql -e "create table mock (id int not null auto_increment, val varchar(20), primary key (id));" -uroot test
+    - mysql -e "create view vmock as select id, val from mock;" -uroot test
     - composer require codeclimate/php-test-reporter 
 
 after_script:
