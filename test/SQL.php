@@ -42,7 +42,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $res = $dbc->queryAll('SELECT 1 AS one');
         $this->assertNotEquals(false, $res);
         $this->assertEquals(1, $dbc->numRows($res));
-        $this->asertEquals(1, $dbc->numFields($res));
+        $this->assertEquals(1, $dbc->numFields($res));
         $this->assertEquals(false, $dbc->numRows(false));
         $this->assertEquals(true, $dbc->dataSeek($res, 0));
 
