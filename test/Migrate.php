@@ -10,9 +10,9 @@ class Migrate extends PHPUnit_Framework_TestCase
         }
         $m = new MockModel2($dbc); 
         $m->normalize('test');
-        $m->normalize('test', COREPOS\common\BasicModel::NORMALIZE_APPLY);
+        $m->normalize('test', COREPOS\common\BasicModel::NORMALIZE_MODE_APPLY);
         $m->normalize('test');
-        $m->normalize('test', COREPOS\common\BasicModel::NORMALIZE_APPLY);
+        $m->normalize('test', COREPOS\common\BasicModel::NORMALIZE_MODE_APPLY);
     }
 }
 
