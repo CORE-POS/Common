@@ -61,5 +61,10 @@ class MockSQL
     {
         return true;
     }
+
+    public function defaultDatabase()
+    {
+        return 'test';
+    }
 }
 

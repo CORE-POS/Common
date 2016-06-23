@@ -95,6 +95,11 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertNotEquals(0, count($dbc->getRow($prep)));
         $this->assertNotEquals(0, count($dbc->matchingColumns('mock', 'mock')));
 
+        $r = $dbc->query('SELECT 1 AS one');
+        $dbc->fetch_array($r);
+        $r = $dbc->query('SELECT 1 AS one');
+        $dbc->fetchObject($r);
+
         $badDef = array('not'=>'real');
         $this->assertEquals(true, $dbc->cacheTableDefinition('mock', $badDef));
         $this->assertEquals($badDef, $dbc->tableDefinition('mock'));
@@ -189,6 +194,17 @@ class SQL extends PHPUnit_Framework_TestCase
         MockSQL::addResult(array('sql'=>'foo'));
         $this->assertEquals('foo', $obj->getViewDefinition('foo', $con, 'foo')); 
         MockSQL::clear();
+    }
+
+    function testWrapper()
+    {
+        $con = new MockSQL();
+        $w = new COREPOS\common\sql\ConnectionWrapper($con, 'foo');
+        $this->assertEquals(true, $w->query('SELECT 1'));
+        $this->assertEquals(true, $w->prepare('SELECT 1'));
+        try {
+            $w->asdf();
+        } catch (Exception $e) {}
     }
 }
 
