@@ -1085,7 +1085,7 @@ class BasicModel
     {
         $current = $this->connection->detailedDefinition($this->name);
         $recase_columns = array();
-        foreach ($this->columns as $col_name => $defintion) {
+        foreach ($this->columns as $col_name => $definition) {
             if (!in_array($col_name, array_keys($current))) {
                 var_dump($definition);
             }
