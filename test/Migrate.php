@@ -9,7 +9,10 @@ class Migrate extends PHPUnit_Framework_TestCase
             include(__DIR__ . '/MockModel2.php');
         }
         $m = new MockModel2($dbc); 
-        var_dump($m->normalize('test'));
+        $m->normalize('test');
+        $m->normalize('test', COREPOS\common\BasicModel::NORMALIZE_APPLY);
+        $m->normalize('test');
+        $m->normalize('test', COREPOS\common\BasicModel::NORMALIZE_APPLY);
     }
 }
 
