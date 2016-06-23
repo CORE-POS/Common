@@ -120,7 +120,7 @@ class SQL extends PHPUnit_Framework_TestCase
         $this->assertEquals(false, $dbc->getValue($prep, 1));
         $this->assertEquals(false, $dbc->getRow($prep, 1));
 
-        $this->assertEquals(true, $dbc->temporaryTable('tmock', 'mock'));
+        $this->assertEquals('tmock', $dbc->temporaryTable('tmock', 'mock'));
 
         $this->assertEquals(true, $dbc->close());
         $dbc->close('', true);

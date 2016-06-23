@@ -2,7 +2,7 @@
 
 class Migrate extends PHPUnit_Framework_TestCase
 {
-    function t()
+    function testMigrate()
     {
         $dbc = new COREPOS\common\SQLManager('localhost', 'PDO_MYSQL', 'test', 'root', '');
         if (!class_exists('MockModel2')) {
