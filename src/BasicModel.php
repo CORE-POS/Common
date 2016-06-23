@@ -1087,7 +1087,11 @@ class BasicModel
         $recase_columns = array();
         foreach ($this->columns as $col_name => $definition) {
             if (!in_array($col_name, array_keys($current))) {
+                echo "RENAMES\n";
                 var_dump($definition);
+                var_dump($col_name);
+                var_dump(array_keys($current));
+                var_dump(in_array($col_name, array_keys($current)));
             }
             if (!in_array($col_name, array_keys($current)) && isset($definition['replaces']) && in_array($definition['replaces'], array_keys($current))) {
                 printf("%s column %s as %s\n", 
