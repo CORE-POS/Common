@@ -344,6 +344,7 @@ class BasicModel
     protected function arrayToSQL($definition, $dbms)
     {
         $sql = '';
+        var_dump($definition);
         $type = $definition['type'];
         if (isset($this->meta_types[strtoupper($type)])) {
             $type = $this->getMeta($type, $dbms);
