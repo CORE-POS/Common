@@ -34,7 +34,7 @@ class MockModel2 extends COREPOS\common\BasicModel
     'id' => array('type'=>'INT', 'increment'=>true, 'primary_key'=>true),
     'String' => array('type'=>'VARCHAR(20)','index'=>true),
     'val2' => array('type'=>'MONEY', 'default'=>0,'replaces'=>'val'),
-    'tdate' => array('datetime'),
+    'tdate' => array('type'=>'datetime'),
     );
 }
 
