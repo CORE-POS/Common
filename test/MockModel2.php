@@ -26,7 +26,7 @@
 /**
   @class MockModel
 */
-class MockModel extends COREPOS\common\BasicModel
+class MockModel2 extends COREPOS\common\BasicModel
 {
     protected $name = "Mockery";
 
