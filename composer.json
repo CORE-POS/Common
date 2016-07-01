@@ -1,5 +1,5 @@
 {
-    "name": "corepos/common",
+    "name": "corepos/common-bundle",
     "description": "Common libraries for CORE-POS",
     "type": "library",
     "license": "GPLv2",
