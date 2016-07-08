@@ -10,7 +10,7 @@ services:
 
 addons:
     code_climate:
-        repo_token: 3835776b3b5113755de86e454eb6725bac11cf80b19c33172b7213af9da4ac20
+        repo_token: 31b35fa0187cea3c61746a1235b01bd7bfea3ab1b15c80e4a03448c36c6ec909
 
 # test both msyqli and PDO 
 install:
