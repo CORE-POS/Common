@@ -1,6 +1,7 @@
 # Common-Bundle
 [![travis-ci](https://travis-ci.org/CORE-POS/Common-Bundle.svg?branch=master)](https://travis-ci.org/CORE-POS/Common-Bundle)
 [![Test Coverage](https://codeclimate.com/github/CORE-POS/Common-Bundle/badges/coverage.svg)](https://codeclimate.com/github/CORE-POS/Common-Bundle/coverage)
+
 Sub-project containing code common to CORE-POS Lane and Office. 
 
 Currently includes:
