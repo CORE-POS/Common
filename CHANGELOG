@@ -1,0 +1,4 @@
+2.0.0 : 2016-07-08:
+  First release of separate bundle. Starting at 2 to
+  match current versioning of CORE-POS components that
+  rely on this code. 

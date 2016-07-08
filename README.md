@@ -1,8 +1,14 @@
-# Common
-Sub-project containing code common to Lane and Office. 
-Currently used to augment test coverage.
-Goals include improving testing of this particular subset of
-code as well as being installable as a PSR-4 compliant package
-for future sub-projects.
+# Common-Bundle
+Sub-project containing code common to CORE-POS Lane and Office. 
 
-See https://github.com/CORE-POS/IS4C
+Currently includes:
+* A SQL abstraction class supporting all MySQL subsystems
+  and to a lesser extent MSSQL, Postgres, and SQLite
+* A barebones ORM and SQL migration class (up only)
+* Plugin base class for managing settings and class'
+  plugin membership
+* PSR-3 Logging
+* File-based PSR Caching
+* Idiosyncratic page building base class
+
+See https://github.com/CORE-POS/IS4C for the main project
