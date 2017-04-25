@@ -12,6 +12,7 @@
         <file>test/FormLib.php</file>
         <file>test/Migrate.php</file>
         <file>test/MVC.php</file>
+        <file>test/NamedSession.php</file>
         <file>test/Pages.php</file>
         <file>test/SQL.php</file>
     </testsuite>
