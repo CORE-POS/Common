@@ -27,11 +27,7 @@ class ValueContainer implements \Iterator
 {
     protected $values = array();
 
-    protected $iterator_position = 0;
-
-    public function __construct()
-    {
-    }
+    protected $iteratorPosition = 0;
 
     public function tryGet($name, $default='')
     {
@@ -42,9 +38,9 @@ class ValueContainer implements \Iterator
     {
         if (isset($this->values[$name])) {
             return $this->values[$name];
-        } else {
-            throw new \Exception("Unknown value {$name}");
         }
+
+        throw new \Exception("Unknown value {$name}");
     }
 
     public function __isset($name)
@@ -67,29 +63,29 @@ class ValueContainer implements \Iterator
     public function current()
     {
         $keys = array_keys($this->values);
-        return $this->__get($keys[$this->iterator_position]);
+        return $this->__get($keys[$this->iteratorPosition]);
     }
 
     public function key()
     {
         $keys = array_keys($this->values);
-        return $keys[$this->iterator_position];
+        return $keys[$this->iteratorPosition];
     }
 
     public function next()
     {
-        $this->iterator_position++;
+        $this->iteratorPosition++;
     }
 
     public function valid()
     {
         $keys = array_keys($this->values);
-        return isset($keys[$this->iterator_position]);
+        return isset($keys[$this->iteratorPosition]);
     }
 
     public function rewind()
     {
-        $this->iterator_position = 0;
+        $this->iteratorPosition = 0;
     }
 }
 
