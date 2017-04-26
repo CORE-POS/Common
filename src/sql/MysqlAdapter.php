@@ -40,15 +40,15 @@ class MysqlAdapter implements DialectAdapter
         return '`' . $str . '`';
     }
 
-    public function getViewDefinition($view_name, $dbc, $db_name)
+    public function getViewDefinition($viewName, $dbc, $dbName)
     {
-        $result = $dbc->query("SHOW CREATE VIEW " . $this->identifierEscape($view_name, $db_name), $db_name);
+        $result = $dbc->query("SHOW CREATE VIEW " . $this->identifierEscape($viewName, $dbName), $dbName);
         if ($dbc->numRows($result) > 0) {
             $row = $dbc->fetchRow($result);
             return $row[1];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function defaultDatabase()
@@ -56,11 +56,11 @@ class MysqlAdapter implements DialectAdapter
         return 'SELECT DATABASE() as dbname';
     }
 
-    public function temporaryTable($name, $source_table)
+    public function temporaryTable($name, $sourceTable)
     {
         return '
             CREATE TEMPORARY TABLE ' . $name . '
-            LIKE ' . $source_table;
+            LIKE ' . $sourceTable;
     }
 
     public function sep()
@@ -68,9 +68,9 @@ class MysqlAdapter implements DialectAdapter
         return ".";
     }
 
-    public function addSelectLimit($query, $int_limit)
+    public function addSelectLimit($query, $intLimit)
     {
-        return sprintf("%s LIMIT %d",$query,$int_limit);
+        return sprintf("%s LIMIT %d",$query,$intLimit);
     }
 
     public function currency()
@@ -134,7 +134,7 @@ class MysqlAdapter implements DialectAdapter
     public function concat($expressions)
     {
         $ret = 'CONCAT(';
-        $ret = array_reduce($expressions, function($carry, $e) { return $carry . $e . ','; }, $ret);
+        $ret = array_reduce($expressions, function($carry, $exp) { return $carry . $exp . ','; }, $ret);
         
         return substr($ret, 0, strlen($ret)-1) . ')';
     }

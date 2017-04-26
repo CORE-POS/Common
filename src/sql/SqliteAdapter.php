@@ -40,17 +40,17 @@ class SqliteAdapter implements DialectAdapter
         return '"' . $str . '"';
     }
 
-    public function getViewDefinition($view_name, $dbc, $db_name)
+    public function getViewDefinition($viewName, $dbc, $dbName)
     {
         $result = $dbc->query("SELECT sql FROM sqlite_master
-                WHERE type IN ('view') AND name='$view_name'",
-                $db_name);
+                WHERE type IN ('view') AND name='$viewName'",
+                $dbName);
         $ret = false;
         if ($dbc->numRows($result) > 0) {
             $row = $dbc->fetchRow($result);
             $ret = $row['sql'];
         }
-        $dbc->endQuery($result, $db_name);
+        $dbc->endQuery($result, $dbName);
         return $ret;
     }
 
@@ -59,13 +59,13 @@ class SqliteAdapter implements DialectAdapter
         return "pragma database list";
     }
 
-    public function temporaryTable($name, $source_table)
+    public function temporaryTable($name, $sourceTable)
     {
         return ' 
             CREATE TEMPORARY TABLE ' . $name . '
             AS
             SELECT *
-            FROM ' . $source_table . '
+            FROM ' . $sourceTable . '
             WHERE 1=0';
     }
 
@@ -74,9 +74,9 @@ class SqliteAdapter implements DialectAdapter
         return ".";
     }
 
-    public function addSelectLimit($query, $int_limit)
+    public function addSelectLimit($query, $intLimit)
     {
-        return sprintf("%s LIMIT %d",$query,$int_limit);
+        return sprintf("%s LIMIT %d",$query,$intLimit);
     }
 
     public function currency()
@@ -136,7 +136,7 @@ class SqliteAdapter implements DialectAdapter
 
     public function concat($expressions)
     {
-        $ret = array_reduce($expressions, function($carry, $e) { return $carry . $e . '||'; }, '');
+        $ret = array_reduce($expressions, function($carry, $exp) { return $carry . $exp . '||'; }, '');
         
         return substr($ret, 0, strlen($ret)-1);
     }

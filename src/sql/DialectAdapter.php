@@ -26,11 +26,11 @@ namespace COREPOS\common\sql;
 interface DialectAdapter
 {
     public function identifierEscape($str);
-    public function getViewDefinition($view_name, $dbc, $db_name);
+    public function getViewDefinition($viewName, $dbc, $dbName);
     public function defaultDatabase();
-    public function temporaryTable($name, $source_table);
+    public function temporaryTable($name, $sourceTable);
     public function sep();
-    public function addSelectLimit($query, $int_limit);
+    public function addSelectLimit($query, $intLimit);
     public function currency();
     public function curtime();
     public function datediff($date1, $date2);

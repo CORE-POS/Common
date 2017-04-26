@@ -40,24 +40,22 @@ class PgsqlAdapter implements DialectAdapter
         return '"' . $str . '"';
     }
 
-    public function getViewDefinition($view_name, $dbc, $db_name)
+    public function getViewDefinition($viewName, $dbc, $dbName)
     {
         $result = $dbc->query("SELECT oid FROM pg_class
-                WHERE relname LIKE '$view_name'",
-                $db_name);
+                WHERE relname LIKE '$viewName'",
+                $dbName);
         if ($dbc->numRows($result) > 0) {
             $row = $dbc->fetchRow($result);
             $defQ = sprintf('SELECT pg_get_viewdef(%d)', $row['oid']);
-            $defR = $dbc->query($defQ, $db_name);
+            $defR = $dbc->query($defQ, $dbName);
             if ($dbc->numRows($defR) > 0) {
                 $def = $dbc->fetchRow($defR);
                 return $def[0];
-            } else {
-                return false;
             }
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function defaultDatabase()
@@ -65,11 +63,11 @@ class PgsqlAdapter implements DialectAdapter
         return 'SELECT CURRENT_DATABASE() as dbname';
     }
 
-    public function temporaryTable($name, $source_table)
+    public function temporaryTable($name, $sourceTable)
     {
         return ' 
             CREATE TEMPORARY TABLE ' . $name . '
-            LIKE ' . $source_table;
+            LIKE ' . $sourceTable;
     }
 
     public function sep()
@@ -77,9 +75,9 @@ class PgsqlAdapter implements DialectAdapter
         return ".";
     }
 
-    public function addSelectLimit($query, $int_limit)
+    public function addSelectLimit($query, $intLimit)
     {
-        return sprintf("%s LIMIT %d",$query,$int_limit);
+        return sprintf("%s LIMIT %d",$query,$intLimit);
     }
 
     public function currency()
@@ -139,7 +137,7 @@ class PgsqlAdapter implements DialectAdapter
 
     public function concat($expressions)
     {
-        $ret = array_reduce($expressions, function($carry, $e) { return $carry . $e . '||'; }, '');
+        $ret = array_reduce($expressions, function($carry, $exp) { return $carry . $exp . '||'; }, '');
         
         return substr($ret, 0, strlen($ret)-2);
     }

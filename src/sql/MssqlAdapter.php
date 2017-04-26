@@ -40,9 +40,9 @@ class MssqlAdapter implements DialectAdapter
         return '[' . $str . ']';
     }
 
-    public function getViewDefinition($view_name, $dbc, $db_name)
+    public function getViewDefinition($viewName, $dbc, $dbName)
     {
-        $result = $dbc->query("SELECT OBJECT_DEFINITION(OBJECT_ID('$view_name'))", $db_name);
+        $result = $dbc->query("SELECT OBJECT_DEFINITION(OBJECT_ID('$viewName'))", $dbName);
         if ($dbc->numRows($result) > 0) {
             $row = $dbc->fetchRow($result);
             return $row[0];
@@ -56,7 +56,7 @@ class MssqlAdapter implements DialectAdapter
         return 'SELECT DB_NAME() as dbname';
     }
 
-    public function temporaryTable($name, $source_table)
+    public function temporaryTable($name, $sourceTable)
     {
         $tname = '#' . $name;
         if (strstr($name, '.dbo.')) {
@@ -65,7 +65,7 @@ class MssqlAdapter implements DialectAdapter
         }
         return '
             CREATE TABLE ' . $tname . '
-            LIKE ' . $source_table;
+            LIKE ' . $sourceTable;
     }
 
     public function sep()
@@ -73,9 +73,9 @@ class MssqlAdapter implements DialectAdapter
         return ".dbo.";
     }
 
-    public function addSelectLimit($query, $int_limit)
+    public function addSelectLimit($query, $intLimit)
     {
-        return str_ireplace("SELECT ","SELECT TOP $int_limit ",$query);
+        return str_ireplace("SELECT ","SELECT TOP $intLimit ",$query);
     }
 
     public function currency()
@@ -135,7 +135,7 @@ class MssqlAdapter implements DialectAdapter
 
     public function concat($expressions)
     {
-        $ret = array_reduce($expressions, function($carry, $e) { return $carry . $e . '+'; }, '');
+        $ret = array_reduce($expressions, function($carry, $exp) { return $carry . $exp . '+'; }, '');
         
         return substr($ret, 0, strlen($ret)-1);
     }
