@@ -6,7 +6,6 @@ class Cache extends PHPUnit_Framework_TestCase
     {
         $classes = array(
             'COREPOS\\common\\cache\\file\\CacheItemPool',
-            'COREPOS\\common\\cache\\php\\CacheItemPool',
         );
         foreach ($classes as $c) {
             $pool = new $c('test.cache');
