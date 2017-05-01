@@ -102,6 +102,7 @@ class BaseLogger extends PHPUnit_Framework_TestCase
         $this->assertEquals(true, $el::errorHandler(1, 'test'));
         $el::exceptionHandler(new Exception('test'));
         $el::catchFatal();
+        $el::addIgnores('asdf');
     }
 }
 

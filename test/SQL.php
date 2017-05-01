@@ -1,5 +1,7 @@
 <?php
 
+use COREPOS\common\sql\CharSets;
+
 class SQL extends PHPUnit_Framework_TestCase
 {
     public function testSQL()
@@ -194,6 +196,12 @@ class SQL extends PHPUnit_Framework_TestCase
         MockSQL::addResult(array('sql'=>'foo'));
         $this->assertEquals('foo', $obj->getViewDefinition('foo', $con, 'foo')); 
         MockSQL::clear();
+    }
+
+    public function testCharsets()
+    {
+        $this->assertEquals('latin1', CharSets::get('mysql', 'iso-8859-1'));
+        $this->assertEquals(false, CharSets::get('pgsql', 'invalid-encoding'));
     }
 
     function testWrapper()
