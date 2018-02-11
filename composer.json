@@ -2,7 +2,7 @@
     "name": "corepos/common-bundle",
     "description": "Common libraries for CORE-POS",
     "type": "library",
-    "license": "GPLv2",
+    "license": "GPL-2.0-only",
     "require": {},
     "autoload": {
     	"psr-4": {
